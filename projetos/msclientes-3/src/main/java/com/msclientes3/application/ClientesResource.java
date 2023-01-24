@@ -17,10 +17,12 @@ import com.msclientes3.application.representation.ClienteSaveRequest;
 import com.msclientes3.domain.Cliente;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/clientes")
 @RequiredArgsConstructor
+@Slf4j
 public class ClientesResource {
 
 	@Autowired
@@ -28,6 +30,7 @@ public class ClientesResource {
 	
 	@GetMapping
 	public String status() {
+		log.info("Obtendo status!");
 		return "ok";
 	}
 	
