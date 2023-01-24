@@ -1,5 +1,6 @@
 package com.msclientes3.application;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ClienteService {
 
+	@Autowired
 	private final ClienteRepository repository = null;
 	
 	@Transactional

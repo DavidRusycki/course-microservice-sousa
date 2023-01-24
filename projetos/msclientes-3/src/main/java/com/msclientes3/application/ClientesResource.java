@@ -2,6 +2,7 @@ package com.msclientes3.application;
 
 import java.net.URI;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ClientesResource {
 
+	@Autowired
 	private final ClienteService service = null;
 	
 	@GetMapping
@@ -41,11 +43,12 @@ public class ClientesResource {
 	@GetMapping(params = "cpf")
 	public ResponseEntity dadosCliente(@RequestParam String cpf) {
 		Optional<Cliente> cliente =	service.getByCpf(cpf);
-		if (cliente.isEmpty()) {
+		
+		if (!cliente.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
 
-		return ResponseEntity.ok(cliente);
+		return ResponseEntity.ok(cliente.get());
 	}
 	
 }
