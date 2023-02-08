@@ -10,6 +10,7 @@ import com.msavaliadorcredito.application.ex.DadosClienteNotFoundException;
 import com.msavaliadorcredito.application.ex.ErroComunicacaoMicroservicesException;
 import com.msavaliadorcredito.domain.model.CartaoCliente;
 import com.msavaliadorcredito.domain.model.DadosCliente;
+import com.msavaliadorcredito.domain.model.RetornoAvaliacaoCliente;
 import com.msavaliadorcredito.domain.model.SituacaoCliente;
 import com.msavaliadorcredito.infra.clients.CartoesResourceClient;
 import com.msavaliadorcredito.infra.clients.ClienteResourceClient;
@@ -35,6 +36,19 @@ public class AvaliadorCreditoService {
 					.cartoes(cartoesCliente.getBody())
 					.build();
 		} catch (FeignClientException e) {
+			int status = e.status();
+			if (HttpStatus.NOT_FOUND.value() == status) {
+				throw new DadosClienteNotFoundException();
+			}
+			throw new ErroComunicacaoMicroservicesException(e.getMessage(), status);
+		}
+	}
+	
+	public RetornoAvaliacaoCliente realizarAvaliacao(String cpf, Long renda) throws DadosClienteNotFoundException, ErroComunicacaoMicroservicesException {
+		try {
+			ResponseEntity<DadosCliente> dadosClienteResponse = clientesClient.dadosCliente(cpf);
+		}
+		catch (FeignClientException e) {
 			int status = e.status();
 			if (HttpStatus.NOT_FOUND.value() == status) {
 				throw new DadosClienteNotFoundException();
